@@ -1,0 +1,19 @@
+# 备份目录
+*.bak/
+Dotfiles-main.bak/
+
+# Windows 下载标记残留
+*:Zone.Identifier
+*Zone.Identifier
+
+# Eli 的 README 截图（~49M，非配置必需，减小仓库体积）
+Dotfiles-main/images/
+
+# 临时 / 缓存 / 编辑器
+*.tmp
+*.log
+*.swp
+*~
+.DS_Store
+__pycache__/
+node_modules/

@@ -1,0 +1,28 @@
+#! /bin/bash
+#Optional script implementing xmonad-like workspace management for multi-monitors in Hyprland.
+#This script should replace your standard binds for changing workspaces by number. For example:
+#bind=SUPER,1,exec,~/.config/hypr/themes/garden/scripts/workspace 1
+
+monitors=$(hyprctl monitors -j)
+
+if [[ -z $1 ]]; then
+  # active workspace of the non-focused monitor
+  workspace=$(echo "$monitors" | jq -r '.[] | select(.focused == false) | .activeWorkspace.name' | head -n1)
+else
+  workspace=$1
+fi
+
+activemonitor=$(echo "$monitors" | jq -r '.[] | select(.focused) | .name')
+# monitor that currently shows the target workspace
+passivemonitor=$(echo "$monitors" | jq -r --arg ws "$workspace" '.[] | select(.activeWorkspace.name == $ws) | .name')
+# active workspace name of each monitor
+activews=$(echo "$monitors" | jq -r --arg mon "$activemonitor" '.[] | select(.name == $mon) | .activeWorkspace.name')
+passivews=$(echo "$monitors" | jq -r --arg mon "$passivemonitor" '.[] | select(.name == $mon) | .activeWorkspace.name')
+
+if [[ "$workspace" == "$passivews" ]] && [[ "$activemonitor" != "$passivemonitor" ]]; then
+  hyprctl dispatch swapactiveworkspaces "$activemonitor" "$passivemonitor"
+else
+  hyprctl dispatch moveworkspacetomonitor "$workspace $activemonitor" && hyprctl dispatch workspace "$workspace"
+fi
+
+exit 0
