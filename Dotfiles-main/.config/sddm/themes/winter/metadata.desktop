@@ -1,0 +1,15 @@
+[SddmGreeterTheme]
+Name=winter
+Description=Winter (blue-pink, snowy) login theme for SDDM
+Author=Dotfiles-winter
+License=CC-BY-SA
+Type=sddm-theme
+Version=1.0
+Website=
+Screenshot=
+MainScript=Main.qml
+ConfigFile=theme.conf
+TranslationsDirectory=translations
+Theme-Id=winter
+Theme-API=2.0
+QtVersion=6

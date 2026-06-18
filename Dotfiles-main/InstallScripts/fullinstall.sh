@@ -152,6 +152,22 @@ apply_winter_theme() {
     fi
 }
 
+setup_sddm() {
+    section "SDDM Login Manager (winter theme)"
+    local theme_src="$DOTFILES_DIR/.config/sddm/themes/winter"
+    local theme_dst="/usr/share/sddm/themes/winter"
+    if [[ ! -d "$theme_src" ]]; then
+        warn "winter sddm theme not found at $theme_src — skipping."
+        return
+    fi
+    # SDDM reads themes from /usr/share/sddm/themes (system-wide), so copy there.
+    sudo mkdir -p /usr/share/sddm/themes /etc/sddm.conf.d
+    sudo cp -r "$theme_src" "$theme_dst"
+    printf '[Theme]\nCurrent=winter\n' | sudo tee /etc/sddm.conf.d/winter.conf > /dev/null
+    sudo systemctl enable sddm
+    success "SDDM enabled with winter theme (takes effect after reboot)."
+}
+
 setup_dynamic_cursors() {
     section "Dynamic Cursors"
     if hyprpm add https://github.com/virtcode/hypr-dynamic-cursors && \
@@ -198,7 +214,7 @@ finish() {
 CORE_PACKAGES=(
     python-pywal16 swww waybar swaync starship myfetch neovim python-pywalfox
     vulkan-radeon mesa libva-mesa-driver   # AMD 图形栈（Hyprland 需 Vulkan；原配置面向 nvidia）
-    hypridle hyprpicker hyprshot hyprlock hyprmon pacman-contrib pyprland wlogout fd
+    sddm hyprpolkitagent hypridle hyprpicker hyprshot hyprlock hyprmon pacman-contrib pyprland wlogout fd
     cava brightnessctl clock-rs-git nerd-fonts nwg-look qogir-icon-theme
     materia-gtk-theme illogical-impulse-bibata-modern-classic-bin
     thunar gvfs tumbler eza bottom htop libreoffice-fresh spotify-launcher ncspot
@@ -227,6 +243,7 @@ auto_install() {
     setup_dynamic_cursors
     apply_dotfiles
     apply_winter_theme
+    setup_sddm
     finish
 }
 
@@ -255,6 +272,7 @@ manual_install() {
 
     apply_dotfiles
     apply_winter_theme
+    setup_sddm
     finish
 }
 

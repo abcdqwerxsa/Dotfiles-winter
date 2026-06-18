@@ -80,19 +80,18 @@ chmod +x *.sh
 > 💡 全自动模式（选 A）会装很多包（含 libreoffice/discord/vscode 等），耗时较长。想精简可选手动模式（选 M）逐个挑包。
 > ⚠️ 脚本里有一步会用 `reflector` 把 pacman 镜像改成美国最快节点——如果你有自己的镜像偏好，手动模式里可以跳过「Update mirrorlist」。
 
-### 步骤 4：进入 Hyprland
+### 步骤 4：重启 → winter 登录界面
 
-**方式 A（TTY 直接启动，最简单）：** 注销后在 TTY 登录界面输入用户名密码，然后执行
+安装脚本已自动装好 **SDDM** 登录管理器并启用 **winter 登录主题**（雪山背景 + 蓝色大时钟 + 蓝粉登录卡片 + 电源按钮）。直接重启：
+
 ```bash
-Hyprland
+sudo reboot
 ```
 
-**方式 B（显示管理器）：** 装一个登录管理器
-```bash
-sudo pacman -S sddm
-sudo systemctl enable --now sddm
-```
-注销后在登录界面右下角选 Hyprland 会话。
+开机即图形登录界面——输用户名、输密码（回车），自动进入 Hyprland（会话默认已选 Hyprland）。
+
+> 想退回 TTY 直接启动（不要图形登录界面）：`sudo systemctl disable sddm`，重启后在 TTY 敲 `Hyprland`。
+> 如果开机没出 winter 登录界面而是黑屏/默认 sddm：`sudo sddm-greeter --test-mode --theme /usr/share/sddm/themes/winter` 预览排查。
 
 ### 步骤 5：切换到 winter 主题
 
