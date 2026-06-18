@@ -1,0 +1,36 @@
+[Default Applications]
+# Images → imv (Wayland-native viewer)
+image/avif=imv.desktop
+image/bmp=imv.desktop
+image/gif=imv.desktop
+image/heif=imv.desktop
+image/jpeg=imv.desktop
+image/jpg=imv.desktop
+image/jxl=imv.desktop
+image/png=imv.desktop
+image/svg+xml=imv.desktop
+image/tiff=imv.desktop
+image/webp=imv.desktop
+image/x-icon=imv.desktop
+image/x-portable-anymap=imv.desktop
+image/x-portable-bitmap=imv.desktop
+image/x-portable-graymap=imv.desktop
+image/x-portable-pixmap=imv.desktop
+image/x-xbitmap=imv.desktop
+image/x-xpixmap=imv.desktop
+
+# Videos → mpv
+video/3gpp=mpv.desktop
+video/divx=mpv.desktop
+video/mp2t=mpv.desktop
+video/mp4=mpv.desktop
+video/mpeg=mpv.desktop
+video/ogg=mpv.desktop
+video/quicktime=mpv.desktop
+video/webm=mpv.desktop
+video/x-flv=mpv.desktop
+video/x-matroska=mpv.desktop
+video/x-ms-asf=mpv.desktop
+video/x-msvideo=mpv.desktop
+video/x-ms-wmv=mpv.desktop
+video/x-theora=mpv.desktop

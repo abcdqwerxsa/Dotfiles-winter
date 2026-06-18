@@ -217,7 +217,7 @@ CORE_PACKAGES=(
     sddm hyprpolkitagent hypridle hyprpicker hyprshot hyprlock hyprmon pacman-contrib pyprland wlogout fd
     cava brightnessctl clock-rs-git nerd-fonts nwg-look qogir-icon-theme
     materia-gtk-theme illogical-impulse-bibata-modern-classic-bin
-    thunar gvfs tumbler eza bottom htop libreoffice-fresh spotify-launcher ncspot
+    thunar gvfs tumbler eza bottom htop libreoffice-fresh spotify-launcher ncspot imv mpv
     discord visual-studio-code-bin yazi lazygit hyprdvd swayosd-git
 )
 
