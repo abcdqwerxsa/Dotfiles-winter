@@ -108,24 +108,93 @@ sudo reboot
 
 ---
 
-## ⌨️ 常用键位
+## 🧩 桌面组件（开机自启）
 
-| 键位 | 功能 |
+| 组件 | 作用 |
 |---|---|
-| `Mod+Q` | 打开终端（kitty） |
-| `Mod+R` | 应用启动器（wofi） |
-| `Mod+B` | 关闭窗口 |
-| `Mod+F` | 全屏 |
-| `Mod+V` | 浮动切换 |
-| `Mod+E` | 文件管理器（thunar） |
-| `Mod+Space` | 终端 scratchpad |
-| `Mod+M` | 退出 Hyprland |
-| `Mod+1~0` | 切换工作区 1~10 |
-| `Alt+B` | **waybar 主题选择**（选 winter） |
-| `Alt+W` | 壁纸选择 |
-| `Alt+Tab` | 电源菜单（wlogout） |
+| **waybar** | 顶部状态栏：时钟、工作区圆点、通知、蓝牙、网络、电池、可展开的 CPU/内存/温度 |
+| **wofi** | 应用启动器（`Mod+R`）、主题/壁纸选择菜单 |
+| **swaync** | 通知中心（弹通知 + 控制面板） |
+| **swayosd** | 调音量/亮度/大写时屏幕弹 OSD |
+| **hyprlock** | 锁屏（winter 壁纸背景） |
+| **hypridle** | 空闲自动锁屏/睡眠 |
+| **swww** | 壁纸引擎（带过渡动画） |
+| **pypr** | scratchpad——下拉式浮窗（终端/音乐/taskbar/spotify） |
+| **wlogout** | 电源菜单（关机/重启/睡眠/注销） |
 
-> `Mod` = Super（Win）键。完整键位见 `~/.config/hypr/hyprland.conf`。
+## ⌨️ 快捷键速查
+
+> `Mod` = **Super（Windows）键**。完整列表见 `~/.config/hypr/hyprland.conf`。
+
+**窗口**
+
+| 键 | 功能 |
+|---|---|
+| `Mod+Q` | 终端（kitty） |
+| `Mod+E` | 文件管理器（thunar） |
+| `Mod+B` | 关闭窗口 |
+| `Mod+V` | 浮动/平铺切换 |
+| `Mod+F` | 全屏 |
+| `Mod+P` | 伪平铺 |
+| `Mod+↑↓←→` | 切焦点 |
+| `Alt+↑↓←→` | 移动窗口到方向 |
+| `Mod+左键拖` / `Mod+右键拖` | 移动 / 调整窗口 |
+
+**工作区**
+
+| 键 | 功能 |
+|---|---|
+| `Mod+1~9` / `Mod+0` | 切到工作区 1~9 / 10 |
+| `Mod+Shift+1~0` | 把窗口移到该工作区 |
+| `Mod+S` | 特殊工作区（magic，隐藏区） |
+| `Mod+Shift+S` | 把窗口移到特殊工作区 |
+| 三指横滑触控板 | 切工作区 |
+
+**scratchpad 下拉浮窗**（再按一次收起）
+
+| 键 | 功能 |
+|---|---|
+| `Mod+Space` | 下拉终端 |
+| `Mod+G` | 音乐播放器 |
+| `Mod+T` | taskbar |
+| `Mod+Esc` | spotify |
+
+**启动 / 系统**
+
+| 键 | 功能 |
+|---|---|
+| `Mod+R` | wofi 应用启动器 |
+| `Mod+L` | 锁屏 |
+| `Mod+M` | 退出 Hyprland |
+| `Alt+Tab` | ⚠️ **电源菜单**（不是切窗口） |
+
+**主题 / 壁纸 / 栏**
+
+| 键 | 功能 |
+|---|---|
+| `Alt+B` | 切 waybar 主题（选 **winter**） |
+| `Alt+A` | 重启/切换 waybar |
+| `Alt+W` | 选壁纸（同时更新配色） |
+| `Alt+R` | 刷新 swaync 样式 |
+
+**截图**（存 `~/Screenshots/`）
+
+| 键 | 功能 |
+|---|---|
+| `Print` | 截窗口 |
+| `Ctrl+Print` | 框选区域 |
+| `Alt+Print` | 全屏 |
+
+**媒体键**（键盘 Fn 区，无需 Mod）：音量 ± / 静音 / 麦克风 · 亮度 ± · 播放暂停/上下首 · `Caps Lock`，均带 OSD 提示。
+
+## 📦 主要应用
+
+终端 **kitty** + **starship**；编辑 **neovim** / VS Code / lazygit；文件 **thunar** / **yazi**；图片 **imv**；视频 **mpv**；音频可视化 **cava**；办公 libreoffice；通讯 discord；音乐 spotify-launcher / ncspot。
+
+## ⚠️ 两个反直觉点
+
+1. **`Alt+Tab` 是电源菜单**（不是切窗口）——Eli 的设定。想要 Alt+Tab 切窗口可在 `hyprland.conf` 加 `bind = Alt, Tab, cyclenext`。
+2. **没有「最小化」**——平铺式桌面，不用就 `Mod+B` 关掉，或 `Mod+Shift+数字` 丢到别的工作区。
 
 ---
 
