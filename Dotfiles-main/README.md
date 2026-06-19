@@ -10,7 +10,7 @@
 
 | 来源 | 内容 |
 |---|---|
-| **Eli 底座** | Hyprland + waybar + wofi + swaync + swww + hyprlock/hypridle + pypr + kitty + nvim + starship + cava …（完整现代 Hyprland 工作流） |
+| **Eli 底座** | Hyprland + waybar + wofi + swaync + awww + hyprlock/hypridle + pypr + kitty + nvim + starship + cava …（完整现代 Hyprland 工作流） |
 | **winter 配色（新增）** | 一个 waybar winter 主题（写死蓝粉色，不依赖 pywal）、hyprland winter 装饰（圆角 16 + 蓝粉 45° 渐变边框 + 模糊 + 阴影）、winter 16 色 pywal 配色方案、2 张雪山壁纸 |
 | **硬件适配** | AMD 图形栈（`vulkan-radeon`/`mesa`/`libva-mesa-driver`）已加进安装脚本；显示器改成单屏自动检测；移除 NVIDIA 专用变量 |
 
@@ -118,7 +118,7 @@ sudo reboot
 | **swayosd** | 调音量/亮度/大写时屏幕弹 OSD |
 | **hyprlock** | 锁屏（winter 壁纸背景） |
 | **hypridle** | 空闲自动锁屏/睡眠 |
-| **swww** | 壁纸引擎（带过渡动画） |
+| **awww** | 壁纸引擎（带过渡动画） |
 | **pypr** | scratchpad——下拉式浮窗（终端/音乐/taskbar/spotify） |
 | **wlogout** | 电源菜单（关机/重启/睡眠/注销） |
 

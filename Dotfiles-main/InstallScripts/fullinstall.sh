@@ -212,7 +212,7 @@ finish() {
 
 # ── Core packages ─────────────────────────────────────────────────────────────
 CORE_PACKAGES=(
-    python-pywal16 swww waybar swaync starship myfetch neovim python-pywalfox
+    python-pywal16 awww waybar swaync starship myfetch neovim python-pywalfox
     vulkan-radeon mesa libva-mesa-driver   # AMD 图形栈（Hyprland 需 Vulkan；原配置面向 nvidia）
     sddm hyprpolkitagent hypridle hyprpicker hyprshot hyprlock hyprmon pacman-contrib pyprland wlogout fd
     cava brightnessctl clock-rs-git nerd-fonts nwg-look qogir-icon-theme
