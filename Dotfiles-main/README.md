@@ -251,6 +251,70 @@ mv ~/.config_backup_<时间戳> ~/.config
 
 ---
 
+## 🆕 新增功能（2026-06 调整）
+
+### ⚠️ Hyprland 配置格式：`.lua` 优先（重要！）
+
+Hyprland 0.55.4 **优先读 `~/.config/hypr/hyprland.lua`**（lua 格式），不是 `.conf`。如果 `.lua` 存在（即使空文件），`.conf` 会被忽略。本配置已迁移到 `.lua` 格式（`.conf` 保留作回退备份）。
+
+> 🚨 **如果桌面变成"裸"的（无快捷键、无 waybar、无主题）**：检查 `~/.config/hypr/hyprland.lua` 是否被清空（0 字节）。恢复：`cp hyprland.lua.bak hyprland.lua` + 重启 Hyprland。
+
+### 🀄 中文输入法（fcitx5 + 紫光双拼）
+
+- **Ctrl+Space** 切换中/英文
+- 默认提供三个输入法：英文 / **紫光双拼** / 全拼
+- Ctrl+Shift 循环切换；或点 waybar 托盘 fcitx 图标选择
+- 切双拼方案：`fcitx5-configtool` → Pinyin → 双拼方案 → 紫光
+
+### ⚙️ 系统设置入口（GUI）
+
+- **Super+I** → wofi 设置菜单（声音/网络/蓝牙/显示器/外观/壁纸/栏主题/通知/电源）
+- **waybar 齿轮左键** → 同上菜单；**右键** → gnome-control-center（完整设置窗口）
+- gnome-control-center 需 `XDG_CURRENT_DESKTOP=GNOME` 才能在 Hyprland 下打开（已在 settings-menu.sh 里处理）
+
+### 😀 emoji 与中文字体
+
+- `noto-fonts-cjk`（中文）+ `noto-fonts-emoji`（彩色表情）已加入安装脚本
+- kitty 配了 `symbol_map` 让 emoji 正常显示（不再是方格）
+- SSH 终端也有 winter 配色（`.bashrc` 里 `cat ~/.cache/wal/sequences`）
+
+### 🎨 终端 (kitty)
+
+- 字体大小 14px（默认 11）
+- 字体：Hurmit Nerd Font
+
+### 📝 Neovim
+
+- 默认主题：**rose-pine**（暗蓝粉，跟 winter 搭），带透明背景
+- `:ThemePywal` 切回精确 winter 色调
+- 其它可用：`:ThemeFileCatppuccin` / `:ThemeFileTokyo` / `:ThemeFileKanagawa` 等
+
+### 🌐 默认浏览器
+
+- Google Chrome（mimeapps.list 已设 http/https/html → chrome）
+
+### 🔒 锁屏（hyprlock）
+
+- **Super+L** → 锁屏
+- 锁屏壁纸 = 当前桌面壁纸（pywallpaper.jpg），模糊 + 暗化
+- 空闲 ~16 分钟自动锁（hypridle）；原 hyprdvd 弹跳屏保已禁用（会导致窗口乱跳）
+
+### 🖥️ 登录界面（SDDM winter）
+
+- 使用桌面同一张壁纸（Background.jpg → pywallpaper.jpg 软链）
+- 时钟/日期/密码框样式与 hyprlock 对齐
+- 安装脚本自动 `chmod o+x $HOME` 让 SDDM 能读到壁纸
+
+### ⚠️ 已知限制（补充）
+
+1. **`hyprctl reload` 在 0.55.4 可能不生效**——改配置后可能需要重启 Hyprland（注销重登），不能只靠 reload
+2. **waybar 工作区点击**跟 Hyprland 0.55.4 新 IPC 不完全兼容——键盘 Super+1~9 正常，鼠标点击可能无反应（等 waybar 更新适配）
+3. **鼠标共享（Deskflow/Barrier）在 Wayland 上不走通**——Hyprland 缺 `InputCapture` portal 接口；Arch 当 server/client 都不行。建议用硬件 USB 切换器
+4. **waybar CSS 裸数字警告**——`margin:10` 之类没写 `px`，GTK 自动按 px 处理，非致命
+5. **gnome-control-center 显示器/鼠标键盘面板**在 Hyprland 上不生效——用 wdisplays / hyprland.lua 调这些
+
+---
+
 ## 🙏 致谢
 
 - **[Eli Fouts (elifouts)](https://github.com/elifouts/Dotfiles)** — 底座（waybar + pywal + 完整 Hyprland 工作流），本仓库的所有基础设施与组件文档均来自他。原始组件说明见 [`readme.md`](./readme.md)。
