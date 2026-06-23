@@ -16,5 +16,11 @@
             "*": [ 1,2,3,4,5 ]
         }
     }
+        "custom/settings": {
+            "format": " ",
+            "tooltip": false,
+            "on-click": "~/.config/hypr/settings-menu.sh",
+            "on-click-right": "XDG_CURRENT_DESKTOP=GNOME gnome-control-center"
+        },
 } 
 

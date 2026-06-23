@@ -97,7 +97,20 @@ function M.use_pywal()
 end
 
 function M.init()
-    vim.g.current_theme = state.get("theme", "pywal")
+    vim.g.current_theme = state.get("theme", "rose-pine")
+
+    -- 玻璃感：清除编辑区背景，配合 Hyprland active_opacity=0.78 的毛玻璃透出
+    vim.api.nvim_create_autocmd("ColorScheme", {
+        group = vim.api.nvim_create_augroup("ui-theme-transparent-bg", { clear = true }),
+        callback = function()
+            for _, hl in ipairs({
+                "Normal", "NormalNC", "SignColumn", "LineNr", "FoldColumn",
+                "NonText", "EndOfBuffer", "MsgArea",
+            }) do
+                vim.api.nvim_set_hl(0, hl, { bg = "NONE", ctermbg = "NONE" })
+            end
+        end,
+    })
 
     vim.api.nvim_create_user_command("ThemePywal", function()
         M.use_pywal()
@@ -159,7 +172,7 @@ function M.init()
     })
 
     vim.schedule(function()
-        local startup_theme = state.get("theme", "pywal")
+        local startup_theme = state.get("theme", "rose-pine")
         if startup_theme == "pywal" then
             M.use_pywal()
         else

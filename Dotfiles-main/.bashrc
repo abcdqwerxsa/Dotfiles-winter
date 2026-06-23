@@ -4,6 +4,8 @@ eval "$(starship init bash)"
 eval "$(zoxide init bash)"
 eval "$(fzf --bash)"
 [[ $- != *i* ]] && return
+# 应用 pywal 配色：让 SSH / 非 kitty 终端也上 winter（kitty 自身走 current-theme.conf）
+(cat ~/.cache/wal/sequences &)
 alias lsd='eza --icons'
 alias search='yay -Q | grep'
 alias pacup='sudo pacman -Rns $(pacman -Qdtq)'

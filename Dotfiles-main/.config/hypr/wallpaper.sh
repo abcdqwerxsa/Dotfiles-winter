@@ -7,7 +7,7 @@ menu() {
 main() {
     choice=$(menu | wofi -c ~/.config/wofi/wallpaper -s ~/.config/wofi/style-wallpaper.css --show dmenu --prompt "Select Wallpaper:" -n)
     selected_wallpaper=$(echo "$choice" | sed 's/^img://')
-    awww img "$selected_wallpaper" --transition-type any --transition-fps 60 --transition-duration .5
+    swww img "$selected_wallpaper" --transition-type any --transition-fps 60 --transition-duration .5
     wal -i "$selected_wallpaper" -n --cols16
     pkill swayosd-server
     swayosd-server &

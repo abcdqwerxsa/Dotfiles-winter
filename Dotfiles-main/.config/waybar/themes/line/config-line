@@ -6,7 +6,7 @@
         "margin-top": 7,
         "margin-bottom": 0,
         "reload_style_on_change": true,
-        "modules-left": ["custom/notification","clock","custom/pacman","tray"],
+        "modules-left": ["custom/settings", "custom/notification","clock","custom/pacman","tray"],
         "modules-center": ["hyprland/workspaces"],
         "modules-right": ["group/expand","bluetooth","network","battery"],
 
@@ -49,7 +49,7 @@
             "tooltip-format-disconnected": "Error",
             "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
             "tooltip-format-ethernet": "{ifname} 🖧 ",
-            "on-click": "kitty nmtui"
+            "on-click": "nm-connection-editor"
         },
         "bluetooth": {
             "format-on": "󰂯",
@@ -131,6 +131,12 @@
         "tray": {
             "icon-size": 14,
             "spacing": 10
+        },
+        "custom/settings": {
+            "format": " ",
+            "tooltip": false,
+            "on-click": "~/.config/hypr/settings-menu.sh",
+            "on-click-right": "XDG_CURRENT_DESKTOP=GNOME gnome-control-center"
         },
 } 
 

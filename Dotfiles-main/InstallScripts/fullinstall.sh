@@ -163,6 +163,10 @@ setup_sddm() {
     # SDDM reads themes from /usr/share/sddm/themes (system-wide), so copy there.
     sudo mkdir -p /usr/share/sddm/themes /etc/sddm.conf.d
     sudo cp -r "$theme_src" "$theme_dst"
+    # 壁纸软链：登录界面用桌面同一张壁纸（pywallpaper.jpg 随壁纸变化自动更新）
+    sudo ln -sf "$HOME/wallpapers/pywallpaper.jpg" "$theme_dst/Background.jpg"
+    # 让 SDDM greeter（sddm 用户）能穿过 $HOME 读到壁纸文件
+    chmod o+x "$HOME"
     printf '[Theme]\nCurrent=winter\n' | sudo tee /etc/sddm.conf.d/winter.conf > /dev/null
     sudo systemctl enable sddm
     success "SDDM enabled with winter theme (takes effect after reboot)."
@@ -218,10 +222,16 @@ CORE_PACKAGES=(
     cava brightnessctl clock-rs-git nerd-fonts nwg-look qogir-icon-theme
     materia-gtk-theme illogical-impulse-bibata-modern-classic-bin
     thunar gvfs tumbler eza bottom htop libreoffice-fresh spotify-launcher ncspot imv mpv
-    discord visual-studio-code-bin yazi lazygit hyprdvd swayosd-git
+    discord visual-studio-code-bin yazi lazygit swayosd-git
+    # 中文输入法 fcitx5
+    fcitx5 fcitx5-chinese-addons fcitx5-configtool fcitx5-gtk fcitx5-qt fcitx5-pinyin-zhwiki
+    # 中文字体 + emoji
+    noto-fonts-cjk noto-fonts-emoji
+    # 系统设置 GUI
+    gnome-control-center wdisplays qt5ct qt6ct blueman
 )
 
-OPTIONAL_PACKAGES=(blueman bluez pipewire pipewire-pulse pipewire-alsa
+OPTIONAL_PACKAGES=(bluez pipewire pipewire-pulse pipewire-alsa
     pipewire-jack pavucontrol pulsemixer gnome-network-displays gst-plugins-bad)
 
 # ── Installation modes ────────────────────────────────────────────────────────
@@ -242,6 +252,8 @@ auto_install() {
     setup_wallpaper
     setup_dynamic_cursors
     apply_dotfiles
+    # 刷新字体缓存（中文字体/emoji 字体需要）
+    fc-cache -f
     apply_winter_theme
     setup_sddm
     finish
@@ -271,6 +283,8 @@ manual_install() {
     [[ "${c:-y}" =~ ^[Yy]$ ]] && setup_dynamic_cursors
 
     apply_dotfiles
+    # 刷新字体缓存（中文字体/emoji 字体需要）
+    fc-cache -f
     apply_winter_theme
     setup_sddm
     finish

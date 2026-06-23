@@ -1,222 +1,164 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 
-// Winter login theme for SDDM — snowy background, blue-pink palette.
-// Palette: bg #0B0A10, blue #A8C5E6, pink #f1a7e2, white #eae9f0, widget #111019
+// ═══════════════════════════════════════════════════════════
+// ❄ Winter SDDM Login — hyprlock Twin
+// 与 hyprlock 使用同一张壁纸 + 相同时钟/日期/密码框样式
+// ═══════════════════════════════════════════════════════════
+
 Item {
     id: root
 
-    // ─────────────────────── Background ───────────────────────
+    // ─── 同一张壁纸（pywallpaper.jpg = 当前桌面壁纸）───
     Image {
-        id: bg
         anchors.fill: parent
         source: "Background.jpg"
         fillMode: Image.PreserveAspectCrop
         asynchronous: true
-        cache: true
     }
+    // 暗化 ≈ hyprlock brightness 0.6
     Rectangle {
         anchors.fill: parent
-        color: "#0B0A10"
-        opacity: 0.55
+        color: Qt.rgba(0.043, 0.040, 0.063, 0.40)
     }
 
-    // ─────────────────────── Clock ───────────────────────
+    // ─── 时钟（hyprlock: 120px, #A8C5E6, center+180上）───
     property var now: new Date()
-    Timer {
-        interval: 1000
-        repeat: true
-        running: true
-        onTriggered: now = new Date()
-    }
+    Timer { interval: 1000; repeat: true; running: true; onTriggered: now = new Date() }
 
-    Column {
-        spacing: 4
+    Text {
+        id: clockText
+        text: Qt.formatTime(now, "HH:mm")
+        color: "#A8C5E6"
+        font { family: "Code New Roman Nerd Font Propo"; pixelSize: 120 }
+        renderType: Text.NativeRendering
         anchors.horizontalCenter: parent.horizontalCenter
-        y: parent.height * 0.15
-
-        Text {
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: Qt.formatTime(now, "HH:mm")
-            color: "#A8C5E6"
-            font { family: "Code New Roman Nerd Font Propo"; pixelSize: 96; bold: true }
-            renderType: Text.NativeRendering
-        }
-        Text {
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: Qt.formatDate(now, "dddd, MMMM d")
-            color: "#eae9f0"
-            opacity: 0.8
-            font { family: "Code New Roman Nerd Font Propo"; pixelSize: 22 }
-            renderType: Text.NativeRendering
-        }
+        y: parent.height / 2 - 180 - height / 2
     }
 
-    // ─────────────────────── Login card ───────────────────────
-    Rectangle {
-        id: card
-        width: 360
-        height: 224
-        radius: 18
-        anchors.centerIn: parent
-        color: Qt.rgba(0.066, 0.063, 0.098, 0.92)   // #111019 @ 0.92
-        border.color: "#f1a7e2"                       // winter pink
-        border.width: 1
-
-        Column {
-            anchors.centerIn: parent
-            spacing: 16
-
-            // User selector
-            ComboBox {
-                id: userCombo
-                width: 290
-                model: userModel
-                textRole: "name"
-                currentIndex: (typeof userModel.lastIndex !== "undefined" && userModel.lastIndex >= 0) ? userModel.lastIndex : 0
-                font { family: "Code New Roman Nerd Font Propo"; pixelSize: 15 }
-                palette.text: "#eae9f0"
-                palette.window: "#111019"
-                palette.base: "#1a1825"
-                palette.highlight: "#A8C5E6"
-                palette.highlightedText: "#0B0A10"
-            }
-
-            // Password
-            TextField {
-                id: passField
-                width: 290
-                echoMode: TextInput.Password
-                placeholderText: "Password"
-                placeholderTextColor: "#7d7a8a"
-                color: "#eae9f0"
-                font { family: "Code New Roman Nerd Font Propo"; pixelSize: 15 }
-                horizontalAlignment: TextInput.AlignHCenter
-                focus: true
-                background: Rectangle {
-                    radius: 10
-                    color: "#1a1825"
-                    border.color: passField.activeFocus ? "#A8C5E6" : "#33302f"
-                    border.width: 1
-                }
-                Keys.onReturnPressed: doLogin()
-                Keys.onEnterPressed: doLogin()
-                onActiveFocusChanged: if (activeFocus) selectAll()
-            }
-
-            // Login button
-            Button {
-                id: loginBtn
-                width: 290
-                height: 38
-                enabled: userCombo.currentText !== ""
-                contentItem: Text {
-                    text: "Log in"
-                    color: loginBtn.enabled ? "#0B0A10" : "#7d7a8a"
-                    font { family: "Code New Roman Nerd Font Propo"; pixelSize: 15; bold: true }
-                    horizontalAlignment: Text.AlignHCenter
-                    verticalAlignment: Text.AlignVCenter
-                }
-                background: Rectangle {
-                    radius: 10
-                    color: loginBtn.enabled
-                        ? (loginBtn.down ? "#d3e8ff" : (loginBtn.hovered ? "#b4d4f0" : "#A8C5E6"))
-                        : "#3a3744"
-                }
-                onClicked: doLogin()
-            }
-        }
+    // ─── 日期（hyprlock: 40px, #A8C5E6, center+40上）───
+    Text {
+        id: dateText
+        text: Qt.formatDate(now, "dddd, MMMM d")
+        color: "#A8C5E6"
+        font { family: "Code New Roman Nerd Font Propo"; pixelSize: 40 }
+        renderType: Text.NativeRendering
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: parent.height / 2 - 40 - height / 2
     }
 
-    // Error message
+    // ─── 用户名（显示当前选中用户）───
+    Text {
+        id: userName
+        color: Qt.rgba(0.92, 0.91, 0.94, 0.6)
+        font { family: "Code New Roman Nerd Font Propo"; pixelSize: 18 }
+        renderType: Text.NativeRendering
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: parent.height / 2 + 70
+    }
+
+    // ─── 密码框（hyprlock: 深底#0B0A10, 圆角20, center-120下）───
+    TextField {
+        id: passField
+        width: 300; height: 50
+        echoMode: TextInput.Password
+        placeholderText: ""
+        color: "#eae9f0"
+        font { family: "Code New Roman Nerd Font Propo"; pixelSize: 16 }
+        horizontalAlignment: TextInput.AlignHCenter
+        verticalAlignment: TextInput.AlignVCenter
+        focus: true
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: parent.height / 2 + 120 - height / 2
+        background: Rectangle {
+            radius: 20
+            color: "#0B0A10"
+            border.color: passField.activeFocus ? "#A8C5E6" : Qt.rgba(0.2, 0.19, 0.24, 1)
+            border.width: 1
+        }
+        Keys.onReturnPressed: doLogin()
+        Keys.onEnterPressed: doLogin()
+    }
+
+    // ─── 隐藏的用户选择器 ───
+    ComboBox {
+        id: userCombo
+        visible: false; width: 1; height: 1
+        model: userModel
+        textRole: "name"
+        currentIndex: (typeof userModel.lastIndex !== "undefined" && userModel.lastIndex >= 0) ? userModel.lastIndex : 0
+        onCurrentTextChanged: userName.text = currentText
+        Component.onCompleted: userName.text = currentText
+    }
+
+    // ─── 错误提示 ───
     Text {
         id: errText
-        text: ""
         color: "#f1a7b3"
-        anchors.top: card.bottom
-        anchors.topMargin: 14
+        opacity: 0
+        text: ""
         anchors.horizontalCenter: parent.horizontalCenter
+        y: passField.y + passField.height + 16
         font { family: "Code New Roman Nerd Font Propo"; pixelSize: 14 }
         renderType: Text.NativeRendering
+        Behavior on opacity { NumberAnimation { duration: 200 } }
     }
 
-    // ─────────────────────── Bottom bar: session + power ───────────────────────
-    Row {
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 36
-        anchors.horizontalCenter: parent.horizontalCenter
-        spacing: 16
-
-        ComboBox {
-            id: sessionCombo
-            width: 190
-            model: sessionModel
-            textRole: "name"
-            currentIndex: (typeof sessionModel.lastIndex !== "undefined" && sessionModel.lastIndex >= 0) ? sessionModel.lastIndex : 0
-            font { family: "Code New Roman Nerd Font Propo"; pixelSize: 13 }
-            palette.text: "#eae9f0"
-            palette.window: "#111019"
-            palette.base: "#1a1825"
-            palette.highlight: "#A8C5E6"
-            palette.highlightedText: "#0B0A10"
+    // ─── 左下：会话 ───
+    ComboBox {
+        id: sessionCombo
+        width: 160
+        anchors.bottom: parent.bottom; anchors.bottomMargin: 24
+        anchors.left: parent.left; anchors.leftMargin: 28
+        model: sessionModel; textRole: "name"
+        currentIndex: (typeof sessionModel.lastIndex !== "undefined" && sessionModel.lastIndex >= 0) ? sessionModel.lastIndex : 0
+        font { family: "Code New Roman Nerd Font Propo"; pixelSize: 12 }
+        palette.text: "#eae9f0"; palette.highlight: "#A8C5E6"; palette.highlightedText: "#0B0A10"
+        contentItem: Text {
+            text: sessionCombo.displayText
+            color: Qt.rgba(0.92, 0.91, 0.94, 0.4)
+            font { family: "Code New Roman Nerd Font Propo"; pixelSize: 12 }
+            verticalAlignment: Text.AlignVCenter
         }
+        background: Rectangle { radius: 6; color: "transparent" }
+    }
 
-        Row {
-            spacing: 6
-            Repeater {
-                model: [
-                    { icon: "⏻", act: "powerOff" },
-                    { icon: "↻", act: "reboot" },
-                    { icon: "⏾", act: "suspend" }
-                ]
-                Button {
-                    id: pwrBtn
-                    width: 38; height: 38
-                    contentItem: Text {
-                        text: modelData.icon
-                        color: "#eae9f0"
-                        font.pixelSize: 18
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    background: Rectangle {
-                        radius: 19
-                        color: pwrBtn.hovered ? Qt.rgba(0.945, 0.655, 0.886, 0.25) : "transparent"
-                        border.color: "#33302f"; border.width: 1
-                    }
-                    onClicked: {
-                        if (modelData.act === "powerOff") sddm.powerOff()
-                        else if (modelData.act === "reboot") sddm.reboot()
-                        else if (modelData.act === "suspend") sddm.suspend()
-                    }
+    // ─── 右下：电源 ───
+    Row {
+        spacing: 4
+        anchors.bottom: parent.bottom; anchors.bottomMargin: 24
+        anchors.right: parent.right; anchors.rightMargin: 28
+        Repeater {
+            model: [{ icon: "⏻", act: "powerOff" }, { icon: "↻", act: "reboot" }, { icon: "⏾", act: "suspend" }]
+            Button {
+                id: pwrBtn; width: 32; height: 32
+                contentItem: Text {
+                    text: modelData.icon
+                    color: pwrBtn.hovered ? "#A8C5E6" : Qt.rgba(0.92, 0.91, 0.94, 0.3)
+                    font.pixelSize: 14
+                    horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
+                }
+                background: Rectangle { radius: 16; color: "transparent" }
+                onClicked: {
+                    if (modelData.act === "powerOff") sddm.powerOff()
+                    else if (modelData.act === "reboot") sddm.reboot()
+                    else if (modelData.act === "suspend") sddm.suspend()
                 }
             }
         }
-    }
-
-    // Brand
-    Text {
-        text: "❄ Hyprland · winter"
-        color: "#eae9f0"
-        opacity: 0.25
-        anchors.top: parent.top; anchors.left: parent.left
-        anchors.margins: 18
-        font { family: "Code New Roman Nerd Font Propo"; pixelSize: 13 }
-        renderType: Text.NativeRendering
     }
 
     function doLogin() {
         if (userCombo.currentText === "") return
-        errText.text = ""
+        errText.opacity = 0
         sddm.login(userCombo.currentText, passField.text, sessionCombo.currentIndex)
     }
 
     Connections {
         target: sddm
         function onLoginFailed() {
-            errText.text = "Login failed — please try again"
-            passField.text = ""
-            passField.forceActiveFocus()
+            errText.text = "Login failed"; errText.opacity = 1
+            passField.text = ""; passField.forceActiveFocus()
         }
         function onLoginSucceeded() {}
     }
